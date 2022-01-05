@@ -1,11 +1,12 @@
 #include <iostream>
-#include "test.hpp"
+#include "SymbolicMath.hpp"
 
 int main() {
-  Variable<double> x;
-  auto expr1 = Cos(x + 2) + 2. * Sin(x - 1);
-  auto expr2 = -Exp(x);
-  std::cout << expr1(0) << std::endl;
-  std::cout << expr2(0) << std::endl;
+  using namespace SymbolicMath;
+  Variable<0> x;
+  auto expr1 = Exp(x) + Sin(Cos(x + 2));
+  auto expr2 = D(expr1, x);
+  std::cout << expr1(1) << std::endl;
+  std::cout << expr2(1) << std::endl;
   return 0;
 }
