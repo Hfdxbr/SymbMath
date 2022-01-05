@@ -4,16 +4,6 @@
 
 namespace SymbolicMath {
 namespace Helpers {
-template <class E>
-constexpr auto ToExpression(const Expression<E>& expr) {
-  return expr;
-}
-
-template <class T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
-constexpr auto ToExpression(const T& value) {
-  return Constant(value);
-}
-
 template <class E1, class E2, template <class, class> class Binary>
 constexpr auto BinaryExpresionHelper(const Expression<E1>& expr1, const Expression<E2>& expr2) {
   if constexpr (is_constant_v<E1> && is_constant_v<E2>)
@@ -141,9 +131,6 @@ class DivideImpl : public Expression<DivideImpl<E1, E2>> {
 
 template <class Arg1, class Arg2>
 constexpr auto operator+(const Arg1& arg1, const Arg2& arg2) {
-  if constexpr (arg1 == 0)
-    return Helpers::ToExpression(arg2);
-  else
     return Helpers::BinaryExpresionHelper<Arg1, Arg2, ImplDetails::PlusImpl>(arg1, arg2);
 }
 
