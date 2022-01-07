@@ -1,8 +1,13 @@
 #pragma once
 
-#include "Constant.hpp"
 #include "Debugging.hpp"
-#include "Derivative.hpp"
-#include "Functions.hpp"
-#include "Operators.hpp"
+#include "Expression.hpp"
+
+#include "Constant.hpp"
 #include "Variable.hpp"
+
+#include "Derivative.hpp"
+
+#include "Operators.hpp"
+
+#include "Functions.hpp"

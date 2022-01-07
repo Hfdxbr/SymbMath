@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Constant.hpp"
 #include "Expression.hpp"
+
+#include "Constant.hpp"
+#include "Simplifier.hpp"
 
 namespace SymbolicMath {
 namespace ImplDetails {
@@ -73,26 +75,26 @@ class _Divide : public BinaryExpression<E1, E2, _Divide> {
 
 template <class Arg>
 constexpr auto operator-(const Arg& arg) {
-  return ImplDetails::_Negate(ToExpression(arg));
+  return Simplify(ImplDetails::_Negate(ToExpression(arg)));
 }
 
 template <class Arg1, class Arg2>
 constexpr auto operator+(const Arg1& arg1, const Arg2& arg2) {
-  return ImplDetails::_Plus(ToExpression(arg1), ToExpression(arg2));
+  return Simplify(ImplDetails::_Plus(ToExpression(arg1), ToExpression(arg2)));
 }
 
 template <class Arg1, class Arg2>
 constexpr auto operator-(const Arg1& arg1, const Arg2& arg2) {
-  return ImplDetails::_Minus(ToExpression(arg1), ToExpression(arg2));
+  return Simplify(ImplDetails::_Minus(ToExpression(arg1), ToExpression(arg2)));
 }
 
 template <class Arg1, class Arg2>
 constexpr auto operator*(const Arg1& arg1, const Arg2& arg2) {
-  return ImplDetails::_Multiply(ToExpression(arg1), ToExpression(arg2));
+  return Simplify(ImplDetails::_Multiply(ToExpression(arg1), ToExpression(arg2)));
 }
 
 template <class Arg1, class Arg2>
 constexpr auto operator/(const Arg1& arg1, const Arg2& arg2) {
-  return ImplDetails::_Divide(ToExpression(arg1), ToExpression(arg2));
+  return Simplify(ImplDetails::_Divide(ToExpression(arg1), ToExpression(arg2)));
 }
 }  // namespace SymbolicMath

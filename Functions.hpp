@@ -1,8 +1,11 @@
 #pragma once
 
-#include "Constant.hpp"
 #include "Expression.hpp"
+
+#include "Constant.hpp"
 #include "Operators.hpp"
+
+#include "Simplifier.hpp"
 
 #include <cmath>
 
@@ -63,21 +66,21 @@ class _Exp : public UnaryExpression<E, _Exp> {
 
 template <class Arg>
 constexpr auto Cos(const Arg& arg) {
-  return ImplDetails::_Cos(ToExpression<Arg>(arg));
+  return Simplify(ImplDetails::_Cos(ToExpression<Arg>(arg)));
 }
 
 template <class Arg>
 constexpr auto Sin(const Arg& arg) {
-  return ImplDetails::_Sin(ToExpression<Arg>(arg));
+  return Simplify(ImplDetails::_Sin(ToExpression<Arg>(arg)));
 }
 
 template <class Arg>
 constexpr auto Tan(const Arg& arg) {
-  return ImplDetails::_Tan(ToExpression<Arg>(arg));
+  return Simplify(ImplDetails::_Tan(ToExpression<Arg>(arg)));
 }
 
 template <class Arg>
 constexpr auto Exp(const Arg& arg) {
-  return ImplDetails::_Exp(ToExpression<Arg>(arg));
+  return Simplify(ImplDetails::_Exp(ToExpression<Arg>(arg)));
 }
 }  // namespace SymbolicMath

@@ -69,6 +69,9 @@ constexpr bool is_constant_v = false;
 template <class T>
 constexpr bool is_constant_v<Constant<T>> = true;
 
+template <class T, T v>
+constexpr bool is_constant_v<IntegralConstant<T, v>> = true;
+
 template <class T>
 constexpr std::enable_if_t<std::is_arithmetic_v<T>, Constant<T>> ToExpression(const T& v) noexcept {
   return Constant<T>(v);
