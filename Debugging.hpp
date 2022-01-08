@@ -4,7 +4,7 @@
 #include <string_view>
 
 template <typename T>
-constexpr auto GetTypeName(const T&) -> std::string_view {
+constexpr auto GetTypeName() -> std::string_view {
 #if defined(__clang__)
   constexpr auto prefix = std::string_view{"[T = "};
   constexpr auto suffix = "]";
@@ -26,4 +26,9 @@ constexpr auto GetTypeName(const T&) -> std::string_view {
   const auto size = end - start;
 
   return function.substr(start, size);
+}
+
+template <typename T>
+constexpr auto GetTypeName(const T&) -> std::string_view {
+  return GetTypeName<T>();
 }

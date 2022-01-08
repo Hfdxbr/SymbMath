@@ -12,13 +12,16 @@ struct Expression {
 
 template <class E>
 constexpr auto ToExpression(const Expression<E>& expr) noexcept {
-  return expr;
+  return expr.CastToUnderlying();
 }
 
 template <class E, template <class> class Impl>
 class UnaryExpression : public Expression<Impl<E>> {
  protected:  // Members
   const E expr;
+
+ public:  // Members
+  static constexpr bool is_constexpr_v = E::is_constexpr_v;
 
  public:  // Constructors
   constexpr UnaryExpression(const Expression<E>& expr) noexcept : expr(expr.CastToUnderlying()) {}
@@ -39,11 +42,24 @@ class UnaryExpression : public Expression<Impl<E>> {
   }
 };
 
+template <class E>
+constexpr bool is_unary_expression_v =
+    std::is_base_of_v<Expression<E>, E> ? is_unary_expression_v<Expression<E>> : false;
+
+template <class E>
+constexpr bool is_unary_expression_v<Expression<E>> = false;
+
+template <class E, template <class> class Impl>
+constexpr bool is_unary_expression_v<Expression<Impl<E>>> = true;
+
 template <class E1, class E2, template <class, class> class Impl>
 class BinaryExpression : public Expression<Impl<E1, E2>> {
  protected:  // Members
   const E1 expr1;
   const E2 expr2;
+
+ public:  // Members
+  static constexpr bool is_constexpr_v = E1::is_constexpr_v && E2::is_constexpr_v;
 
  public:  // Constructors
   constexpr BinaryExpression(const Expression<E1>& expr1, const Expression<E2>& expr2) noexcept
@@ -64,4 +80,14 @@ class BinaryExpression : public Expression<Impl<E1, E2>> {
     return Impl<E1, E2>::deriv(expr1, expr1.template Derive<M>(), expr2, expr2.template Derive<M>());
   }
 };
+
+template <class E>
+constexpr bool is_binary_expression_v =
+    std::is_base_of_v<Expression<E>, E> ? is_binary_expression_v<Expression<E>> : false;
+
+template <class E>
+constexpr bool is_binary_expression_v<Expression<E>> = false;
+
+template <class E1, class E2, template <class, class> class Impl>
+constexpr bool is_binary_expression_v<Expression<Impl<E1, E2>>> = true;
 }  // namespace SymbolicMath

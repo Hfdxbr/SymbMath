@@ -5,6 +5,9 @@
 namespace SymbolicMath {
 template <class T, T value>
 class IntegralConstant : public Expression<IntegralConstant<T, value>> {
+ public:  // Members
+  static constexpr bool is_constexpr_v = true;
+
  public:  // Constructors
   constexpr IntegralConstant(){};
   constexpr IntegralConstant(const IntegralConstant& expr){};
@@ -44,6 +47,9 @@ class Constant : public Expression<Constant<T>> {
 
  private:  // Members
   const T value;
+
+ public:  // Members
+  static constexpr bool is_constexpr_v = false;
 
  public:  // Constructors
   constexpr Constant(const T& value) : value(value){};

@@ -8,6 +8,9 @@
 namespace SymbolicMath {
 template <unsigned N>
 class Variable : public Expression<Variable<N>> {
+ public:  // Members
+  static constexpr bool is_constexpr_v = true;
+
  public:  // Constructors
   Variable(){};
 
